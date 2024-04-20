@@ -1,0 +1,46 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Wish list</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="div-container">
+    <h4>Add new movie to wishlist: </h4>
+    <form action="/add" method="post">
+    <input type="text" id="searchPromptInput" name="url" placeholder="Paste movie's URL" class="input-text">
+      <input type="submit" value="Add!" class="button">
+        <input type="submit" value="Export as Excel" formaction="/excel" class="button">
+    </form>
+
+    <p th:text="${list}"> Welcome!</p>
+
+    <table>
+        <thead>
+        <tr>
+            <th> Id </th>
+            <th> Title </th>
+            <th> Director </th>
+            <th> Release Date </th>
+            <th> URL </th>
+            <th> DELETE </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:if="${movieList.empty}">
+            <td colspan="6"> No Movies in the list </td>
+        </tr>
+        <tr th:each="movie : ${movieList}">
+            <td><span th:text="${movie.id}"> </span></td>
+            <td><span th:text="${movie.title}"> </span></td>
+            <td><span th:text="${movie.director}"> </span></td>
+            <td><span th:text="${movie.releaseYear}"> </span></td>
+            <td><a th:href="${movie.url}"><span th:text="${movie.url}"> </span></a></td>
+            <td><form action="/delete" method="post"><button class="button" type="submit" th:value="${movie.id}" name="idToDelete">Delete</button></form> </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
